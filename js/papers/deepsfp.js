@@ -105,19 +105,18 @@ var context = {
         ]
       }
     ],
-  
+
     Contacts: `
       Achuta Kadambi<br>
       Assistant Professor<br>
       Electrical and Computer Engineering Department<br>
-      achuta@ee.ucla.edu<br> 
+      achuta@ee.ucla.edu<br>
     `,
-  
+
     Photos: [
       {
         Link: "./img/deepsfp/pol.png",
-        Caption:
-          "Figure 1: Inherent ambiguities in shape from polarization."
+        Caption: "Figure 1: Inherent ambiguities in shape from polarization.",
       },
       {
         Link: "./img/deepsfp/setup_dataset.png",
@@ -132,36 +131,37 @@ var context = {
         Caption: "Figure 7: Comprehensive Results.",
       },
     ],
-  
+
     Teaser: {
-      imageURL: "./img/polarized3D/teasercrop.png",
-      imageBackgroundURL: "./img/polarized3D/teasercrop-background.png",
-      imageHeight: 555, //in pixels
+      imageURL: "./img/deepsfp/sfp.gif",
       rawHTML: `
-      <div class="caption">Figure 1: Starting from a coarse depth map, is it possible to achieve laser scan quality? By combining the information from the Kinect depth frame in (a) with information in 3 polarized photographs (b) , we reconstruct the 3D surface shown in (c). The subtle change between polarization images provides additional information about surface orientation. See Figure 2 of this website for a laser scan comparison.</div>
+			<div>
+        <img src="img/deepsfp/sfp.gif" alt="video disc">
+      </div>
+      <div class="caption">Using polarized images of an object, we calculate a rough estimate of surface normals using Fresnel's equations. We then use deep learning to combine the raw images and the physics-based estimates and reconstruct accurate 3D shape.</div>
       `,
     },
     FAQ: [
         {
             Question: "What is Shape from Polarization?",
-            Answer: "Today, photographers use polarizing filters on 2D cameras to create stunning photos. Polarized 3D probes the question: what if a polarizing filter is used on a 3D camera? The answer: commodity depth sensors operating at millimeter quality, can be enhanced to micron quality, improving resolution to 3 orders of magnitude.",
+            Answer: "Shape from Polarization (SfP) tries to reconstruct an object's 3D shape (surface normals and/or depth) from polarization images.",
         },
         {
             Question: "How does a polarized 2D camera obtain 3D geometry?",
-            Answer: "For about two centuries, the Fresnel equations have linked surface normals with material and polarimetric properties. However, such equations alone cannot solve for full 3D geometry. Our work is inspired by previous approaches in inverse rendering [Miyazaki03] and shape recovery [Atkinson06], but has a different goal: to recover full 3D shape. A sketch of our hardware is shown in Figure 3 of this website. ",   
+            Answer: "For about two centuries, the Fresnel equations have linked surface normals with material and polarimetric properties. However, such equations alone cannot solve for full 3D geometry. We use a physics-based deep learning method to obtain state-of-the-art performance compared to previous purely physics-based methods.",
         },
         {
-          Question: "Does Polarized 3D operate in real-time?",
-          Answer: "Although the acquisition can be made real-time (with a polarization mosaic), the computation is not yet real-time, requiring minutes to render 1 depth frame. We are exploring faster algorithms and GPU implementations to eventually arrive at 30 Hz framerates.",
+          Question: "How does Shape from Polarization compare to other 3D reconstruction methods?",
+          Answer: "Shape from Polarization is just one of a number of techniques for reconstructing 3D shape from 2D images, such as photometric stereo, multi-view stereo, and Structure from Motion. However, SfP is unique in it's minimal requirement for known setup, strong priors, or active lighting. Our deep SfP technique can reconstruct surface normals in a single shot with a standard polarization camera, and we show that this holds for various unkown lighting conditions.",
         },
         {
-          Question: "When will the software be available?",
-          Answer: "We provide any form of software and hardware support as a courtesy to the research community, as the method is patent pending. However, on this project page, you can find a dataset as well as executable MATLAB code. The supplementary PDF has some instructions and MATLAB source snippets for your own implementations. We can provide additional datasets on request, but these have large filesizes. In rare cases, we may be able to scan an object that you are willing to mail us.",
+          Question: "What is in the SfP dataset?",
+          Answer: "The dataset consists of 338 items: 27 objects, in 4 orientations, and under 3 different lighting conditions (indoor lighting, sunlight, and overcast). Each item is stored as a matlab file with 4 polarization images (0°, 45°, 90°, and 135°), an object foreground mask, the ground truth surface normals, and the physical priors calculated from Fresnel's equation. We have also published an additional set of items which were not included in the paper. This set includes 9 objects, under different indoor lighting conditions, with 5 different lighting directions each.",
         },
         {
           Question: "What are some consumer applications of this work?",
-          Answer: "This is a new tool for 3D sensing and finds use in virtual reality, autonomous navigation, and industrial inspection. In particular, the proposed technique is suited in areas that require precise 3D depth (e.g. 3D scanning).",
-        }
+          Answer: "Deep SfP could find use in any application requiring 3D sensing— such as virtual reality, autonomous navigation, and industrial inspection. Requiring only sigle-shot, passive capture it offers various advantages over current 3D reconstruction techniques.",
+        },
     ],
   };
 
@@ -181,7 +181,7 @@ function getTemplateAjax(path, callback) {
 }
 Handlebars.registerHelper("AssociationsList", function(items, options) {
     var out = "";
-  
+
     for (var i = 0, l = items.length; i < l; i++) {
       items[i].Number = i + 1;
       console.log(items[i].Number);
