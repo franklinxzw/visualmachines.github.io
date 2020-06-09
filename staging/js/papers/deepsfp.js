@@ -132,7 +132,7 @@ var context = {
         Caption: "Figure 3: Proposed dataset.",
       },
             {
-        Link: "./img/deepsfp/F_PolarizationVsShading_small.png",
+        Link: "./img/deepsfp/F_PolarizationVsShading_small",
         Caption: "Figure 5: Our deep learning method learns from polarization cues, not just shading cues.",
       },
       {
@@ -142,8 +142,11 @@ var context = {
     ],
 
     Teaser: {
-      imageURL: "./img/deepsfp/sfp.png",
+      imageURL: "./img/deepsfp/sfp.gif",
       rawHTML: `
+			<div>
+        <img src="img/deepsfp/sfp.gif" alt="video disc">
+      </div>
       <div class="caption">Using polarized images of an object, we calculate a rough estimate of surface normals using Fresnel's equations. We then use deep learning to combine the raw images and the physics-based estimates and reconstruct accurate 3D shape.</div>
       `,
     },
